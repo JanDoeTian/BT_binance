@@ -57,7 +57,7 @@ class BinanceData(DataBase):
         self.lines.close[0] = close
         self.lines.volume[0] = volume
         return True
-    
+
     def _parser_dataframe(self, data):
         df = data.copy()
         df.columns = ['timestamp', 'open', 'high', 'low', 'close', 'volume']
@@ -78,7 +78,7 @@ class BinanceData(DataBase):
     def _start_live(self):
         self._state = self._ST_LIVE
         self.put_notification(self.LIVE)
-            
+
         self._store.binance_socket.start_kline_socket(
             self._handle_kline_socket_message,
             self.symbol_info['symbol'],
