@@ -15,6 +15,7 @@ from .binance_feed import BinanceData
 
 class BinanceStore(object):
     _GRANULARITIES = {
+        (TimeFrame.Seconds, 1): KLINE_INTERVAL_1SECOND,
         (TimeFrame.Minutes, 1): KLINE_INTERVAL_1MINUTE,
         (TimeFrame.Minutes, 3): KLINE_INTERVAL_3MINUTE,
         (TimeFrame.Minutes, 5): KLINE_INTERVAL_5MINUTE,
@@ -136,7 +137,7 @@ class BinanceStore(object):
         if not self._data:
             self._data = BinanceData(store=self, timeframe_in_minutes=timeframe_in_minutes, start_date=start_date)
         return self._data
-        
+
     def get_filters(self):
         symbol_info = self.get_symbol_info(self.symbol)
         for f in symbol_info['filters']:
