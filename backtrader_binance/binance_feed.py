@@ -15,8 +15,8 @@ class BinanceData(DataBase):
     # States for the Finite State Machine in _load
     _ST_LIVE, _ST_HISTORBACK, _ST_OVER = range(3)
 
-    def __init__(self, store, timeframe_in_seconds, start_date=None):
-        self.timeframe_in_seconds = timeframe_in_seconds
+    def __init__(self, store, timeframe_in_minutes, start_date=None):
+        self.timeframe_in_minutes = timeframe_in_minutes
         self.start_date = start_date
 
         self._store = store
@@ -93,7 +93,7 @@ class BinanceData(DataBase):
     def start(self):
         DataBase.start(self)
 
-        self.interval = self._store.get_interval(TimeFrame.Seconds, self.timeframe_in_seconds)
+        self.interval = self._store.get_interval(TimeFrame.Minutes, self.timeframe_in_minutes)
         if self.interval is None:
             self._state = self._ST_OVER
             self.put_notification(self.NOTSUPPORTED_TF)
