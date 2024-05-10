@@ -12,6 +12,8 @@ from requests.exceptions import ConnectTimeout, ConnectionError
 from .binance_broker import BinanceBroker
 from .binance_feed import BinanceData
 
+import watchtower, logging
+
 
 class BinanceStore(object):
     _GRANULARITIES = {
@@ -33,7 +35,7 @@ class BinanceStore(object):
         (TimeFrame.Months, 1): KLINE_INTERVAL_1MONTH,
     }
 
-    def __init__(self, api_key, api_secret, coin_refer, coin_target, testnet=False, retries=5):
+    def __init__(self, api_key, api_secret, coin_refer, coin_target, logger,testnet=False, retries=5):
         self.binance = Client(api_key, api_secret, testnet=testnet)
         self.binance_socket = ThreadedWebsocketManager(api_key, api_secret, testnet=testnet)
         self.binance_socket.daemon = True
@@ -42,6 +44,7 @@ class BinanceStore(object):
         self.coin_target = coin_target
         self.symbol = coin_refer + coin_target
         self.retries = retries
+        self.logger = logger
 
         self._cash = 0
         self._value = 0
