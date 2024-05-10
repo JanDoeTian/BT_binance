@@ -56,7 +56,8 @@ class BinanceStore(object):
 
         self._broker = BinanceBroker(store=self)
         self._data = None
-        
+        self.logger.info("Binance store initiated.")
+
     def _format_value(self, value, step):
         precision = step.find('1') - 1
         if precision > 0:
