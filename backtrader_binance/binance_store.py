@@ -133,9 +133,9 @@ class BinanceStore(object):
     def getbroker(self):
         return self._broker
 
-    def getdata(self, timeframe_in_seconds, start_date=None):
+    def getdata(self, timeframe_in_minutes, start_date=None):
         if not self._data:
-            self._data = BinanceData(store=self, timeframe_in_seconds=timeframe_in_seconds, start_date=start_date)
+            self._data = BinanceData(store=self, timeframe_in_minutes=timeframe_in_minutes, start_date=start_date)
         return self._data
 
     def get_filters(self):
