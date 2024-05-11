@@ -49,7 +49,6 @@ class BinanceBroker(BrokerBase):
         self._store.binance_socket.start_user_socket(self._handle_user_socket_message)
 
     def _execute_order(self, order, date, executed_size, executed_price):
-        print('_execute_order data: ', order.data)
         order.execute(
             date,
             executed_size,
@@ -137,7 +136,6 @@ class BinanceBroker(BrokerBase):
         return self.notifs.popleft()
 
     def getposition(self, data, clone=True):
-        print('self.positions: ', self.positions)
         pos = self.positions[data._dataname]
         print('acquired pos:', pos)
         if clone:
