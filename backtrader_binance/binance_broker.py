@@ -138,6 +138,7 @@ class BinanceBroker(BrokerBase):
 
     def getposition(self, data, clone=True):
         pos = self.positions[data._dataname]
+        print('dataname', data._dataname)
         if clone:
             pos = pos.clone()
         return pos
