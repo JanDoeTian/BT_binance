@@ -49,6 +49,7 @@ class BinanceBroker(BrokerBase):
         self._store.binance_socket.start_user_socket(self._handle_user_socket_message)
 
     def _execute_order(self, order, date, executed_size, executed_price):
+        print('_execute_orderr: ', order.data)
         order.execute(
             date,
             executed_size,

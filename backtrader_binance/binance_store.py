@@ -67,8 +67,9 @@ class BinanceStore(object):
     def retry(func):
         @wraps(func)
         def wrapper(self, *args, **kwargs):
-            self.logger.error(f"Retrying function '{func.__name__}'")
             for attempt in range(1, self.retries + 1):
+                if(attempt > 2):
+                    self.logger.error(f"Retrying function '{func.__name__}'")
                 time.sleep(60 / 1200) # API Rate Limit
                 try:
                     return func(self, *args, **kwargs)
