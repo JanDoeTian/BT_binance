@@ -142,7 +142,7 @@ class BinanceBroker(BrokerBase):
         return pos
 
     def getvalue(self, datas=None):
-        self.value = self._store._value
+        self.value = self._store._cash
         return self.value
 
     def notify(self, order):

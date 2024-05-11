@@ -56,7 +56,7 @@ class BinanceStore(object):
 
         self._broker = BinanceBroker(store=self)
         self._data = None
-        self.logger.info("Binance store initiated.")
+        self.logger.error("Binance store initiated.")
 
     def _format_value(self, value, step):
         precision = step.find('1') - 1
@@ -67,6 +67,7 @@ class BinanceStore(object):
     def retry(func):
         @wraps(func)
         def wrapper(self, *args, **kwargs):
+            self.logger.error(f"Retrying function '{func.__name__}'")
             for attempt in range(1, self.retries + 1):
                 time.sleep(60 / 1200) # API Rate Limit
                 try:
@@ -93,10 +94,13 @@ class BinanceStore(object):
             self.binance.cancel_order(symbol=self.symbol, orderId=order_id)
         except BinanceAPIException as api_err:
             if api_err.code == -2011:  # Order filled
+                self.logger.error("cancel_order -2011 error", api_err)
                 return
             else:
+                self.logger.error("cancel_order API error", api_err)
                 raise api_err
         except Exception as err:
+            self.logger.error("cancel_order other error", err)
             raise err
     
     @retry
