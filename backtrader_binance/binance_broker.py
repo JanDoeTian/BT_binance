@@ -59,9 +59,10 @@ class BinanceBroker(BrokerBase):
             0, 0.0)
         pos = self.getposition(order.data, clone=False)
         pos.update(copysign(executed_size, order.size), executed_price)
+        print("updated position: ", pos)
 
     def _handle_user_socket_message(self, msg):
-        print('new massage arrives at broker ', msg)
+        print('Message arrives at broker ', msg)
         """https://binance-docs.github.io/apidocs/spot/en/#payload-order-update"""
         if msg['e'] == 'executionReport':
             if msg['s'] == self._store.symbol:
