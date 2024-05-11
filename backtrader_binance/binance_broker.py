@@ -59,10 +59,8 @@ class BinanceBroker(BrokerBase):
             0, 0.0)
         pos = self.getposition(order.data, clone=False)
         pos.update(copysign(executed_size, order.size), executed_price)
-        print("updated position: ", pos)
 
     def _handle_user_socket_message(self, msg):
-        print('Message arrives at broker ', msg)
         """https://binance-docs.github.io/apidocs/spot/en/#payload-order-update"""
         if msg['e'] == 'executionReport':
             if msg['s'] == self._store.symbol:
@@ -115,7 +113,6 @@ class BinanceBroker(BrokerBase):
             trailamount=None, trailpercent=None,
             **kwargs):
         
-        print('buying size', size)
         return self._submit(owner, data, SIDE_BUY, exectype, size, price)
 
     def cancel(self, order):
@@ -156,5 +153,4 @@ class BinanceBroker(BrokerBase):
              trailamount=None, trailpercent=None,
              **kwargs):
         
-        print('selling size', size)
         return self._submit(owner, data, SIDE_SELL, exectype, size, price)
