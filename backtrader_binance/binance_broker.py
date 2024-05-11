@@ -126,6 +126,7 @@ class BinanceBroker(BrokerBase):
         return self._store.get_asset_balance(asset)
 
     def getcash(self):
+        self._store.get_balance('USDT')
         self.cash = self._store._cash
         return self.cash
 
@@ -142,6 +143,7 @@ class BinanceBroker(BrokerBase):
         return pos
 
     def getvalue(self, datas=None):
+        self._store.get_balance('USDT')
         self.value = self._store._cash
         return self.value
 
