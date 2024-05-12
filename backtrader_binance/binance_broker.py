@@ -112,7 +112,10 @@ class BinanceBroker(BrokerBase):
             exectype=None, valid=None, tradeid=0, oco=None,
             trailamount=None, trailpercent=None,
             **kwargs):
-        
+        print('buying size: ', size)
+        print('at price: ', price)
+        print('cost: ', size * price)
+        print('cash: ', self._store._cash)
         return self._submit(owner, data, SIDE_BUY, exectype, size, price)
 
     def cancel(self, order):
@@ -154,5 +157,6 @@ class BinanceBroker(BrokerBase):
              exectype=None, valid=None, tradeid=0, oco=None,
              trailamount=None, trailpercent=None,
              **kwargs):
-        
+        print('selling size: ', size)
+        print('at price: ', price)
         return self._submit(owner, data, SIDE_SELL, exectype, size, price)
