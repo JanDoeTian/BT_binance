@@ -145,9 +145,10 @@ class BinanceBroker(BrokerBase):
             pos = pos.clone()
         return pos
 
+    # Get free 'BTC'
     def getvalue(self, datas=None):
-        self._store.get_balance()
-        self.value = self._store._cash
+        free, locked = self._store.get_asset_balance(self._store.coin_refer)
+        self.value = free
         return self.value
 
     def notify(self, order):
