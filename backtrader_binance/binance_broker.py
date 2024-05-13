@@ -130,8 +130,7 @@ class BinanceBroker(BrokerBase):
 
     def getcash(self):
         self._store.get_balance()
-        self.cash = self._store._cash
-        return self.cash
+        return self._store._cash
         
     def get_notification(self):
         if not self.notifs:
@@ -152,7 +151,15 @@ class BinanceBroker(BrokerBase):
 
     # Get free 'USDT'
     def getvalue(self, datas=None):
-        return self.getcash()
+        cash = self.getcash()
+        print('cash value: ', cash)
+
+        coinvalue = self.getcoinvalue()
+        print('coin value: ', coinvalue)
+
+        price = self._store.get_symbol_latest_price()
+        print('coin price: ', price)
+        return self.getcash() + float(self.getcoinvalue()) * self._store.get_symbol_latest_price()
     
     def getcoinvalue(self, datas=None):
         free, locked = self._store.get_asset_balance(self._store.coin_refer)

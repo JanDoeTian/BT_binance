@@ -180,6 +180,10 @@ class BinanceStore(object):
     @retry
     def get_symbol_info(self, symbol):
         return self.binance.get_symbol_info(symbol)
+    
+    @retry
+    def get_symbol_latest_price(self):
+        return self.binance.get_symbol_ticker(self.symbol)
 
     def stop_socket(self):
         self.binance_socket.stop()
