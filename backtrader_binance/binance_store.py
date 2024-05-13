@@ -6,6 +6,7 @@ from math import floor
 from backtrader.dataseries import TimeFrame
 from binance import Client, ThreadedWebsocketManager
 from binance.enums import *
+from backtrader.order import Order
 from binance.exceptions import BinanceAPIException
 from requests.exceptions import ConnectTimeout, ConnectionError
 
@@ -35,7 +36,7 @@ class BinanceStore(object):
         (TimeFrame.Months, 1): KLINE_INTERVAL_1MONTH,
     }
 
-    def __init__(self, api_key, api_secret, coin_refer, coin_target, logger,testnet=False, retries=5):
+    def __init__(self, api_key, api_secret, coin_refer, coin_target, logger, close_outstanding=False,testnet=False, retries=5):
         self.binance = Client(api_key, api_secret, testnet=testnet)
         self.binance_socket = ThreadedWebsocketManager(api_key, api_secret, testnet=testnet)
         self.binance_socket.daemon = True
@@ -59,6 +60,9 @@ class BinanceStore(object):
         self._broker = BinanceBroker(store=self)
         self._data = None
         self.logger.error("Binance store initiated.")
+
+        if(close_outstanding):
+            self.close_outstanding()
 
     def _format_value(self, value, step):
         precision = step.find('1') - 1
@@ -134,15 +138,21 @@ class BinanceStore(object):
     @retry
     def get_min_qty(self):
         info = self.binance.get_symbol_info(self.symbol)
-        print('info', info)
         self._min_qty = float(info['filters'][1]['minQty'])
 
     @retry
     def get_asset_balance(self, asset):
         balance = self.binance.get_asset_balance(asset)
-
         return float(balance['free']), float(balance['locked'])
 
+    def close_outstanding(self):
+        value = self._broker.getvalue()
+        print('oustanding position: ', value)
+        minqty = self._broker.get_min_qty()
+        if(value > minqty):
+            self.create_order(SIDE_SELL, Order.Market, minqty, None)
+        print('outstanding position closed')
+        
     def get_balance(self):
         free, locked = self.get_asset_balance(self.coin_target)
         self._cash = free
