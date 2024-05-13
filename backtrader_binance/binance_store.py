@@ -183,7 +183,7 @@ class BinanceStore(object):
     
     @retry
     def get_symbol_latest_price(self):
-        return self.binance.get_symbol_ticker(symbol = self.symbol)['price']
+        return float(self.binance.get_symbol_ticker(symbol = self.symbol)['price'])
 
     def stop_socket(self):
         self.binance_socket.stop()
