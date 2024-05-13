@@ -134,6 +134,7 @@ class BinanceStore(object):
     @retry
     def get_min_qty(self):
         info = self.binance.get_symbol_info(self.symbol)
+        print('info', info)
         self._min_qty = info['filters'][2]['minQty']
 
     @retry
