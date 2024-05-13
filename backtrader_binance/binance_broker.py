@@ -145,6 +145,11 @@ class BinanceBroker(BrokerBase):
             pos = pos.clone()
         return pos
 
+    def get_min_qty(self):
+        self._store.get_min_qty()
+        self.minqty = self._store._min_qty
+        return self.minqty
+
     # Get free 'BTC'
     def getvalue(self, datas=None):
         free, locked = self._store.get_asset_balance(self._store.coin_refer)

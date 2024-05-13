@@ -55,7 +55,6 @@ class BinanceStore(object):
         self.get_filters()
 
         self._min_qty = None
-        self.get_min_qty()
 
         self._broker = BinanceBroker(store=self)
         self._data = None
