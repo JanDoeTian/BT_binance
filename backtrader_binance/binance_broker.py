@@ -155,7 +155,7 @@ class BinanceBroker(BrokerBase):
         return self.getcash()
     
     def getcoinvalue(self, datas=None):
-        free, locked = self._store.get_asset_balance(self._store.coin)
+        free, locked = self._store.get_asset_balance(self._store.coin_refer)
         self.value = free
         return self.value
     
