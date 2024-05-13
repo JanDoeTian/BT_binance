@@ -130,6 +130,11 @@ class BinanceStore(object):
         return self._format_value(size, self._step_size)
 
     @retry
+    def get_min_qty(self, asset):
+        info = self.binance.get_symbol_info(self.symbol)
+        return info['filters'][2]['minQty']
+
+    @retry
     def get_asset_balance(self, asset):
         balance = self.binance.get_asset_balance(asset)
         return float(balance['free']), float(balance['locked'])

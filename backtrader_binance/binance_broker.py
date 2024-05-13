@@ -132,7 +132,7 @@ class BinanceBroker(BrokerBase):
         self._store.get_balance()
         self.cash = self._store._cash
         return self.cash
-
+        
     def get_notification(self):
         if not self.notifs:
             return None
