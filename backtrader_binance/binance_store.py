@@ -135,7 +135,7 @@ class BinanceStore(object):
     def get_min_qty(self):
         info = self.binance.get_symbol_info(self.symbol)
         print('info', info)
-        self._min_qty = info['filters'][1]['minQty']
+        self._min_qty = float(info['filters'][1]['minQty'])
 
     @retry
     def get_asset_balance(self, asset):
