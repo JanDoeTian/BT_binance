@@ -45,12 +45,11 @@ class BinanceBroker(BrokerBase):
 
         self.open_orders = list()
 
+        self._store = store
+        self._store.binance_socket.start_user_socket(self._handle_user_socket_message)
 
         self.minqty = None
         self.get_min_qty()
-
-        self._store = store
-        self._store.binance_socket.start_user_socket(self._handle_user_socket_message)
 
     def _execute_order(self, order, date, executed_size, executed_price):
         order.execute(
