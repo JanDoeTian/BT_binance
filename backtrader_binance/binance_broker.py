@@ -150,12 +150,15 @@ class BinanceBroker(BrokerBase):
         self.minqty = self._store._min_qty
         return self.minqty
 
-    # Get free 'BTC'
+    # Get free 'USDT'
     def getvalue(self, datas=None):
-        free, locked = self._store.get_asset_balance(self._store.coin_refer)
+        return self.getcash()
+    
+    def getcoinvalue(self, datas=None):
+        free, locked = self._store.get_asset_balance(self._store.coin)
         self.value = free
         return self.value
-
+    
     def notify(self, order):
         self.notifs.append(order)
 

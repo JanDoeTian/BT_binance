@@ -146,7 +146,7 @@ class BinanceStore(object):
         return float(balance['free']), float(balance['locked'])
 
     def close_outstanding(self):
-        value = self._broker.getvalue()
+        value = self._broker.getcoinvalue()
         print('oustanding position: ', value)
         minqty = self._broker.get_min_qty()
         if(value > minqty):
