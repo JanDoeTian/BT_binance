@@ -44,7 +44,11 @@ class BinanceBroker(BrokerBase):
         self.positions = defaultdict(Position)
 
         self.open_orders = list()
-    
+
+
+        self.minqty = None
+        self.get_min_qty()
+
         self._store = store
         self._store.binance_socket.start_user_socket(self._handle_user_socket_message)
 
@@ -149,7 +153,7 @@ class BinanceBroker(BrokerBase):
         self.minqty = self._store._min_qty
         return self.minqty
 
-    # Get free 'USDT'
+    # Get portfolio value
     def getvalue(self, datas=None):
         cash = self.getcash()
         print('cash value: ', cash)
@@ -165,6 +169,11 @@ class BinanceBroker(BrokerBase):
         free, locked = self._store.get_asset_balance(self._store.coin_refer)
         self.value = free
         return self.value
+    
+    def getcoinvalueusdt(self, datas=None):
+        coinvalue = self.getcoinvalue()
+        price = self._store.get_symbol_latest_price()
+        return coinvalue * price
     
     def notify(self, order):
         self.notifs.append(order)
