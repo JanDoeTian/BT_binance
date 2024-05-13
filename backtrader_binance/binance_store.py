@@ -54,6 +54,9 @@ class BinanceStore(object):
         self._tick_size = None
         self.get_filters()
 
+        self._min_qty = None
+        self.get_min_qty()
+
         self._broker = BinanceBroker(store=self)
         self._data = None
         self.logger.error("Binance store initiated.")
@@ -132,11 +135,12 @@ class BinanceStore(object):
     @retry
     def get_min_qty(self, asset):
         info = self.binance.get_symbol_info(self.symbol)
-        return info['filters'][2]['minQty']
+        self._min_qty = info['filters'][2]['minQty']
 
     @retry
     def get_asset_balance(self, asset):
         balance = self.binance.get_asset_balance(asset)
+
         return float(balance['free']), float(balance['locked'])
 
     def get_balance(self):
