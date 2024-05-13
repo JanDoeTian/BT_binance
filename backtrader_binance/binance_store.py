@@ -132,7 +132,7 @@ class BinanceStore(object):
         return self._format_value(size, self._step_size)
 
     @retry
-    def get_min_qty(self, asset):
+    def get_min_qty(self):
         info = self.binance.get_symbol_info(self.symbol)
         self._min_qty = info['filters'][2]['minQty']
 
