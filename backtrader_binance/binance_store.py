@@ -150,7 +150,7 @@ class BinanceStore(object):
         print('oustanding position: ', value)
         minqty = self._broker.get_min_qty()
         if(value > minqty):
-            self.create_order(SIDE_SELL, Order.Market, minqty, None)
+            self.create_order(SIDE_SELL, ORDER_TYPE_MARKET, minqty, None)
         print('outstanding position closed')
         
     def get_balance(self):
