@@ -115,10 +115,6 @@ class BinanceBroker(BrokerBase):
             exectype=None, valid=None, tradeid=0, oco=None,
             trailamount=None, trailpercent=None,
             **kwargs):
-        print('buying size: ', size)
-        print('at price: ', price)
-        print('cost: ', size * price)
-        print('cash: ', self._store._cash)
         return self._submit(owner, data, SIDE_BUY, exectype, size, price)
 
     def cancel(self, order):
@@ -155,13 +151,10 @@ class BinanceBroker(BrokerBase):
     # Get portfolio value
     def getvalue(self, datas=None):
         cash = self.getcash()
-        print('cash value: ', cash)
 
         coinvalue = self.getcoinvalue()
-        print('coin value: ', coinvalue)
 
         price = self._store.get_symbol_latest_price()
-        print('coin price: ', price)
         return self.getcash() + float(self.getcoinvalue()) * self._store.get_symbol_latest_price()
     
     def getcoinvalue(self, datas=None):
@@ -181,6 +174,4 @@ class BinanceBroker(BrokerBase):
              exectype=None, valid=None, tradeid=0, oco=None,
              trailamount=None, trailpercent=None,
              **kwargs):
-        print('selling size: ', size)
-        print('at price: ', price)
         return self._submit(owner, data, SIDE_SELL, exectype, size, price)

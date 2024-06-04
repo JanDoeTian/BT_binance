@@ -147,11 +147,9 @@ class BinanceStore(object):
 
     def close_outstanding(self):
         value = self._broker.getcoinvalue()
-        print('oustanding position: ', value)
         minqty = self._broker.get_min_qty()
         if(value > minqty):
             self.create_order(SIDE_SELL, ORDER_TYPE_MARKET, value, None)
-        print('outstanding position closed')
         
     def get_balance(self):
         free, locked = self.get_asset_balance(self.coin_target)
